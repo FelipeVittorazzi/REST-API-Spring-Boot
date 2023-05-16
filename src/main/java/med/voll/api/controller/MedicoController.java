@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("medicos")
@@ -25,6 +29,18 @@ public class MedicoController {
     @GetMapping
     public Page<DadosListagemMedico> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
         return repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosListagemMedico> buscarPorId(@PathVariable Long id) {
+        Optional<Medico> medicoOptional = repository.findByIdAndAtivoTrue(id);
+
+        if (medicoOptional.isPresent()) {
+            DadosListagemMedico dadosListagemMedico = new DadosListagemMedico(medicoOptional.get());
+            return ResponseEntity.ok(dadosListagemMedico);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping
