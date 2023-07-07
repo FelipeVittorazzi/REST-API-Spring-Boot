@@ -2,8 +2,8 @@
 
 ## Índice
 
-    1. [Descrição](#descrição)
-    2. [Tecnologias](#tecnologias)
+1. [Descrição](#descrição)
+2. [Tecnologias](#tecnologias)
 
 ## Descrição
 
